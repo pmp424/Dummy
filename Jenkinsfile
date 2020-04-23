@@ -1,8 +1,9 @@
-// Parameterized CRD files
-  properties(
-    [parameters([choice(choices: ["crd-certificate.yaml", "crd-felixproject.yaml", "crd-gslb-config.yaml", "crd-gslb-deployment.yaml", "crd-reflection-request.yaml", "crd-routestate.yaml", "crd-subscription.yaml", "crd-splunk-index.yaml"].join("\n"),
-    description: 'CRD File which need to Deploy', 
-    name: 'CRD_Files')])])
+def testParam = checkBox("CRD Files", // name
+                "crd-certificate.yaml,crd-felixproject.yaml,crd-gslb-config.yaml,crd-gslb-deployment.yaml,crd-reflection-request.yaml,crd-routestate.yaml,crd-subscription.yaml,crd-splunk-index.yaml", // values
+                "crd-certificate.yaml", //default value
+                0, //visible item cnt
+                "Multi-select", // description
+                )
 
   // Parameterized controller and validator files
   properties(
