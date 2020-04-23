@@ -1,6 +1,4 @@
-node {
-
-  // Parameterized CRD files
+// Parameterized CRD files
   properties(
     [parameters([choice(choices: ["crd-certificate.yaml", "crd-felixproject.yaml", "crd-gslb-config.yaml", "crd-gslb-deployment.yaml", "crd-reflection-request.yaml", "crd-routestate.yaml", "crd-subscription.yaml", "crd-splunk-index.yaml"].join("\n"),
     description: 'CRD File which need to Deploy', 
@@ -12,6 +10,8 @@ node {
 	description: 'controller and validator File which need to Deploy',
 	name: 'controller and validator files')])])
 	
+node {
+
  	def PROJECT_NAME = "project_name"
 
     // Clean workspace before doing anything
