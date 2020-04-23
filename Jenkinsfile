@@ -17,17 +17,31 @@ node {
     // Clean workspace before doing anything
     deleteDir()
 
-    // Load the file 'externalMethod.groovy' from the current directory, into a variable called "externalMethod".
-    def externalMethod = load("externalMethod.groovy")
-
-    // Call the method we defined in externalMethod.
-    externalMethod.lookAtThis("Steve")
-
-    // Now load 'externalCall.groovy'.
-    def externalCall = load("externalCall.groovy")
-
-    // We can just run it with "externalCall(...)" since it has a call method.
-    externalCall("Steve")
+    try {
+        stage ('Clone') {
+        	checkout scm
+        }
+        stage ('Build') {
+        	sh "echo 'shell scripts to build project...'"
+        }
+        stage ('Tests') {
+	        parallel 'static': {
+	            sh "echo 'shell scripts to run static tests...'"
+	        },
+	        'unit': {
+	            sh "echo 'shell scripts to run unit tests...'"
+	        },
+	        'integration': {
+	            sh "echo 'shell scripts to run integration tests...'"
+	        }
+        }
+      	stage ('Deploy') {
+            sh "echo 'shell scripts to deploy to server...'"
+      	}
+    } catch (err) {
+        currentBuild.result = 'FAILED'
+        throw err
+    }
 }
 
 
