@@ -4,48 +4,13 @@
 	description: 'controller and validator File which need to Deploy',
 	name: 'controller and validator files')])])
 	
-	com.cwctravel.hudson.plugins.extended_choice_parameter.ExtendedChoiceParameterDefinition extendedChoiceParameterDefinition = new com.cwctravel.hudson.plugins.extended_choice_parameter.ExtendedChoiceParameterDefinition(
-    "OPTION_NAME", // name
-    "PT_CHECKBOX", // type
-    "option1,option2,option3", // values
-    null, // projectName
-    null, // propertyFile
-    null, // groovyScript
-    null, // groovyScriptFile
-    null, // bindings
-    null, // groovyClasspath
-    null, // propertyKey
-    "option1,option2", // defaultValue
-    null, // defaultPropertyFile
-    null, // defaultGroovyScript
-    null, // defaultGroovyScriptFile
-    null, // defaultBindings
-    null, // defaultGroovyClasspath
-    null, // defaultPropertyKey
-    null, // descriptionPropertyValue
-    null, // descriptionPropertyFile
-    null, // descriptionGroovyScript
-    null, // descriptionGroovyScriptFile
-    null, // descriptionBindings
-    null, // descriptionGroovyClasspath
-    null, // descriptionPropertyKey
-    null, // javascriptFile
-    null, // javascript
-    false, // saveJSONParameterToFile
-    false, // quoteValue
-    10, // visible item count
-    "Select your options", // description
-    "," //multiSelectDelimiter
-)
-
-normalChoiceOptions = ["option1","option2"]
-
-properties([
-        parameters([
-                choice(choices: normalChoiceOptions.join("\n"), description: 'Single select option', name: 'SOME_OPTION'),                
-                extendedChoiceParameterDefinition
-        ])
-])
+	parameters {
+        choice(
+            choices: ['greeting' , 'silence'],
+            description: '',
+            name: 'REQUESTED_ACTION')
+    }
+	
 node {
 
  	def PROJECT_NAME = "project_name"
