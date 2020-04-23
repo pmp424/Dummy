@@ -17,28 +17,17 @@ node {
     // Clean workspace before doing anything
     deleteDir()
 
-    def server = Artifactory.newServer url: SERVER_URL, credentialsId: CREDENTIALS
-    def rtMaven = Artifactory.newMavenBuild()
-    def buildInfo
+    // Load the file 'externalMethod.groovy' from the current directory, into a variable called "externalMethod".
+    def externalMethod = load("externalMethod.groovy")
 
-    stage ('Clone') {
-        git url: 'https://github.com/jfrog/project-examples.git'
-    }
+    // Call the method we defined in externalMethod.
+    externalMethod.lookAtThis("Steve")
 
-    stage ('Artifactory configuration') {
-        rtMaven.tool = MAVEN_TOOL // Tool name from Jenkins configuration
-        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
-        rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
-        buildInfo = Artifactory.newBuildInfo()
-    }
+    // Now load 'externalCall.groovy'.
+    def externalCall = load("externalCall.groovy")
 
-    stage ('Exec Maven') {
-        rtMaven.run pom: 'maven-example/pom.xml', goals: 'clean install', buildInfo: buildInfo
-    }
-
-    stage ('Publish build info') {
-        server.publishBuildInfo buildInfo
-    }
+    // We can just run it with "externalCall(...)" since it has a call method.
+    externalCall("Steve")
 }
 
 
