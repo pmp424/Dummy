@@ -1,16 +1,12 @@
 node {
 	  
-	def clusterInfo = [ 
-		[clusterURL:"https://${params.Cluster}.cisco.com", configMap:"${workDir}/${subPath}/others/gslb-config-${params.Cluster}.yaml",  clusterName: "${params.Cluster}"]
-	]
-	
-	
+	String[] ClusterValue= "${params.Cluster}".split(',');
 	String[] PodsValue= "${params.Pod}".split(',');
   
     try{
 	
 		stage("Reading Cluster/Clusters"){
-		println "Selected Cluster is ${clusterInfo}"
+		println "Selected Cluster is ${ClusterValue}"
 		}
 		stage("Reading Common Yaml files"){
 			sh '''
@@ -138,9 +134,9 @@ node {
 		
 				println "Below are the actual Yaml files list respective to selected PODs"
 				sh "cat YamlFilesList.txt"
-				sh "uniq YamlFilesList.txt"
+				sh "uniq YamlFilesList.txt > UniqYamlFilesList.txt"
 				println "Below are the yaml files that are going to be deployed"
-				sh "cat YamlFilesList.txt"
+				sh "cat UniqYamlFilesList.txt"
 		}		
 			
 		stage("Deploy the pods"){ 
